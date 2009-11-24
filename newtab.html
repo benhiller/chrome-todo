@@ -2,14 +2,20 @@
   <head>
     <script type="text/javascript" src="jquery.js"> </script>
     <script type="text/javascript">
+      function update() {
+        var items = '["' + $('.item .content').map(function() {
+          return $(this).text();
+        }).get().join('", "') + '"]';
+        localStorage.setItem('wisbd', items);
+      }
+
       $(document).ready(function() {
+
         $('#next').bind('keypress', function(e) {
           // Handle new items
           if(e.keyCode == 13) {
-            items = JSON.parse(localStorage.getItem('wisbd'));
-            items.push($('#next').val());
-            localStorage.setItem('wisbd', JSON.stringify(items));
             $('#list').append('<li class="item"><span class="content">'+$('#next').val()+'</span><span class="remove">X</span></li>');
+            update();
             $('#next').val('');
           }
         }).click(function() {
@@ -24,10 +30,7 @@
         // Handle removing items
         $(".remove").live("click", function() {
           $(this).parent().replaceWith("");
-          var items = '["' + $('.item .content').map(function() {
-            return $(this).text();
-          }).get().join('", "') + '"]';
-          localStorage.setItem('wisbd', items);
+          update();
         });
 
         // Initialize
