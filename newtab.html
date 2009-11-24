@@ -9,35 +9,107 @@
         localStorage.setItem('wisbd', items);
       }
 
+      function newItem(str) {
+        var li = $('<li class="item"><span class="content">'+str+'</span><span class="widgets"><span class="up"></span><span class="down"></span><span class="remove"></span></span></li>');
+        li.find('.up').html("&uArr;");
+        li.find('.down').html('&dArr;');
+        li.find('.remove').text('X');
+        return li;
+      }
+
       $(document).ready(function() {
 
-        $('#next').bind('keypress', function(e) {
+        $('#next').bind('keydown', function(e) {
           // Handle new items
           if(e.keyCode == 13) {
-            $('#list').append('<li class="item"><span class="content">'+$('#next').val()+'</span><span class="remove">X</span></li>');
+            $('#new-item').before(newItem($('#next').val()));
             update();
             $('#next').val('');
+          } else if (e.keyCode == 9) {
+            e.preventDefault();
+            $('#list').find('li:first').find('.content').click();
+            $(this).blur();
           }
         }).click(function() {
           if($('#next').val() == '...')
             $('#next').val('');
         }).blur(function() {
-          if($('#next').val() == '') {
-            $('#next').val('...');
+          if($(this).val() == '') {
+            $(this).val('...');
           }
         });
 
         // Handle removing items
         $(".remove").live("click", function() {
-          $(this).parent().replaceWith("");
+          $(this).parent().parent().replaceWith("");
           update();
+        });
+
+        $('.up').live('click', function() {
+          var t = $(this).parent().parent();
+          var n = t.prev('.item');
+          if(n.length == 1) {
+            var nContents = n.html();
+            n.html(t.html());
+            t.html(nContents);
+          }
+          update();
+        });
+
+        $('.down').live('click', function() {
+          var t = $(this).parent().parent();
+          var n = t.next('.item');
+          if(n.length == 1) {
+            var nContents = n.html();
+            n.html(t.html());
+            t.html(nContents);
+          }
+          update();
+        });
+
+        // Handle updating items
+        $('.update .edit').live('keydown', function(e) {
+          if(e.keyCode == 13) {
+            if($(this).val() == '') {
+              $(this).parent().parent().remove('li.update');
+            } else {
+              $(this).parent().parent().replaceWith(newItem($(this).val()));
+            }
+            update();
+          } else if(e.keyCode == 9) {
+            e.preventDefault();
+            var li = newItem($(this).val());
+            var next = $(this).parent().parent().next();
+            if($(this).val() == '') {
+              $(this).parent().parent().remove('li.update');
+            } else {
+              $(this).parent().parent().replaceWith(li);
+            }
+            update();
+            if(next.find('.content').length == 1) {
+              next.find('.content').click();
+            } else {
+              $('#next').click().focus();
+            }
+          }
+        });
+
+        // Handle updating items
+        $('.content').live('click', function() {
+            var rep = $('<li class="update"></li>');
+            rep.append('<span class="container"><input class="edit" type="text" value="' + $(this).text() + '" /></span>');
+            $(this).parent().replaceWith(rep);
+            rep.find('input').blur(function() {
+              $(this).parent().parent().replaceWith(newItem($(this).val()));
+              update();
+            }).focus().click();
         });
 
         // Initialize
         var todo = JSON.parse(localStorage.getItem('wisbd'));
-        for(var i = 0; i < todo.length; i++) {
+        for(var i = todo.length-1; i >= 0; i--) {
           if(todo[i] != "") {
-            $('#list').append('<li class="item"><span class="content">'+todo[i]+'</span><span class="remove">X</span></li>');
+            $('#list').prepend(newItem(todo[i]));
           }
         }
 
@@ -60,7 +132,7 @@
         border-bottom: 1px solid #000;
       }
 
-      #list, #container {
+      #list, .container {
         width: 450px;
         margin: 0 auto;
         list-style-position: inside;
@@ -70,7 +142,7 @@
         font-size: 36px;
       }
 
-      #list li:before, #container:before {
+      #list li:before {
         font-weight: normal;
         content: "\00BB \0020";
       }
@@ -81,40 +153,48 @@
         padding-bottom: 5px;
       }
 
-      .remove {
+      .widgets {
         display: none;
         float: right;
-        color: #FF3030;
+      }
+
+      .down, .up {
+        color: #ddd;
+      }
+
+      .down:hover, .up:hover {
+        color: #888;
+      }
+
+      .remove {
+        color: #DD9999;
       }
 
       .remove:hover {
-        text-decoration: underline;
+        color: #DD3030;
       }
 
-      .item:hover > .remove {
+      .item:hover > .widgets {
         display: inline;
       }
 
-      #container {
-        height: 45px;
-        margin-left: 85px;
-      }
-
-      #next {
+      .edit {
         font-size: 36px;
         height: 45px;
         width: 300px;
-        border: 1px solid #ddd;
+        border: 1px solid #eee;
       }
     </style>
     <title>New Tab</title>
   </head>
   <body>
     <div id="todo">
-      <h1>I should be doing...</h1>
+      <h1>I should be...</h1>
       <ul id="list">
+        <li id="new-item">
+          <span class="container"><input class="edit" id="next" type="text" value="..." /></span>
+        </li>
       </ul>
-      <div id="container"><input id="next" type="text" value="..." /></div>
     </div>
   </body>
 </html>
