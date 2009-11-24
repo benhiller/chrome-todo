@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <script type="text/javascript" src="jquery.js"> </script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#next').bind('keypress', function(e) {
+          // Handle new items
+          if(e.keyCode == 13) {
+            items = JSON.parse(localStorage.getItem('wisbd'));
+            items.push($('#next').val());
+            localStorage.setItem('wisbd', JSON.stringify(items));
+            $('#list').append('<li class="item"><span class="content">'+$('#next').val()+'</span><span class="remove">X</span></li>');
+            $('#next').val('');
+          }
+        }).click(function() {
+          if($('#next').val() == '...')
+            $('#next').val('');
+        }).blur(function() {
+          if($('#next').val() == '') {
+            $('#next').val('...');
+          }
+        });
+
+        // Handle removing items
+        $(".remove").live("click", function() {
+          $(this).parent().replaceWith("");
+          var items = '["' + $('.item .content').map(function() {
+            return $(this).text();
+          }).get().join('", "') + '"]';
+          localStorage.setItem('wisbd', items);
+        });
+
+        // Initialize
+        var todo = JSON.parse(localStorage.getItem('wisbd'));
+        for(var i = 0; i < todo.length; i++) {
+          if(todo[i] != "") {
+            $('#list').append('<li class="item"><span class="content">'+todo[i]+'</span><span class="remove">X</span></li>');
+          }
+        }
+
+      });
+    </script>
+    <style>
+      html {
+      }
+
+      #todo {
+        width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      h1 {
+        font-family:Georgia,'Times New Roman',Times,serif;
+        font-size: 55px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #000;
+      }
+
+      #list, #container {
+        width: 450px;
+        margin: 0 auto;
+        list-style-position: inside;
+        font-weight: bold;
+        font-family: 'Helvetica','Arial',sans-serif;
+        list-style: none;
+        font-size: 36px;
+      }
+
+      #list li:before, #container:before {
+        font-weight: normal;
+        content: "\00BB \0020";
+      }
+
+      #list li {
+        text-align: left;
+        height: 45px;
+        padding-bottom: 5px;
+      }
+
+      .remove {
+        display: none;
+        float: right;
+        color: #FF3030;
+      }
+
+      .remove:hover {
+        text-decoration: underline;
+      }
+
+      .item:hover > .remove {
+        display: inline;
+      }
+
+      #container {
+        height: 45px;
+        margin-left: 85px;
+      }
+
+      #next {
+        font-size: 36px;
+        height: 45px;
+        width: 300px;
+        border: 1px solid #ddd;
+      }
+    </style>
+    <title>New Tab</title>
+  </head>
+  <body>
+    <div id="todo">
+      <h1>I should be doing...</h1>
+      <ul id="list">
+      </ul>
+      <div id="container"><input id="next" type="text" value="..." /></div>
+    </div>
+  </body>
+</html>
