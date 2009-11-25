@@ -9,6 +9,10 @@
         localStorage.setItem('wisbd', items);
       }
 
+      function setTitle(title) {
+        localStorage.setItem('wisbd-title', title);
+      }
+
       function newItem(str) {
         var li = $('<li class="item"><span class="content">'+str+'</span><span class="widgets"><span class="up"></span><span class="down"></span><span class="remove"></span></span></li>');
         li.find('.up').html("&uArr;");
@@ -22,13 +26,21 @@
         $('#next').bind('keydown', function(e) {
           // Handle new items
           if(e.keyCode == 13) {
-            $('#new-item').before(newItem($('#next').val()));
-            update();
-            $('#next').val('');
+            if($('#next').val() != '') {
+              $('#new-item').before(newItem($('#next').val()));
+              update();
+              $('#next').val('');
+            }
           } else if (e.keyCode == 9) {
-            e.preventDefault();
-            $('#list').find('li:first').find('.content').click();
-            $(this).blur();
+            if(e.shiftKey) {
+              e.preventDefault();
+              $('#next').parent().parent().prev('.item').children('.content').click();
+              $(this).blur();
+            } else {
+              e.preventDefault();
+              $('#list').find('li:first').find('.content').click();
+              $(this).blur();
+            }
           }
         }).click(function() {
           if($('#next').val() == '...')
@@ -79,18 +91,23 @@
           } else if(e.keyCode == 9) {
             e.preventDefault();
             var li = newItem($(this).val());
-            var next = $(this).parent().parent().next();
+            var next;
+            if(!e.shiftKey) {
+              next = $(this).parent().parent().next();
+            } else {
+              next = $(this).parent().parent().prev();
+            }
+            if(next.find('.content').length == 1) {
+                next.find('.content').click();
+            } else {
+                $('#next').click().focus();
+            }
             if($(this).val() == '') {
               $(this).parent().parent().remove('li.update');
             } else {
               $(this).parent().parent().replaceWith(li);
             }
             update();
-            if(next.find('.content').length == 1) {
-              next.find('.content').click();
-            } else {
-              $('#next').click().focus();
-            }
           }
         });
 
@@ -105,7 +122,35 @@
             }).focus().click();
         });
 
+        $('h1').toggle(function() {
+          var rep = $('<input class="title-edit" type="text" value="'+ $(this).text() + '" />');
+          $(this).html(rep);
+          var done = function(t) {
+            if(t.val() != '') {
+              title = t.val();
+              t.parent().text(title);
+              setTitle(title);
+            } else {
+              t.parent().text(title);
+            }
+          }
+          rep.blur(function () { done($(this)); }).keydown(function(e) {
+            if(e.keyCode == 13) {
+              done($(this));
+            }
+          }).focus().click();
+          },
+          function() {
+        });
+
         // Initialize
+        var title = localStorage.getItem('wisbd-title');
+        if(title == null || title == '') {
+          title = 'Things to do';
+          setTitle(title);
+        }
+        $('h1').text(title);
+
         var todo = JSON.parse(localStorage.getItem('wisbd'));
         for(var i = todo.length-1; i >= 0; i--) {
           if(todo[i] != "") {
@@ -129,7 +174,9 @@
         font-family:Georgia,'Times New Roman',Times,serif;
         font-size: 55px;
         margin-bottom: 10px;
+        padding-bottom: 5px;
         border-bottom: 1px solid #000;
+        height: 60px;
       }
 
       #list, .container {
@@ -151,6 +198,20 @@
         text-align: left;
         height: 45px;
         padding-bottom: 5px;
+        position: relative;
+      }
+
+
+      #list li, #next {
+        height: 45px;
+        font-family: Helvetica, Arial, sans-serif;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      input {
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
       }
 
       .widgets {
@@ -166,7 +227,29 @@
         color: #888;
       }
 
+      .up {
+        margin-right: -27px;
+        font-size: 20px;
+        display: block;
+      }
+
+      .down {
+        font-size: 20px;
+        margin-top: -13px;
+        display: block;
+      }
+
+      .content {
+        width: 470px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
       .remove {
+        margin-top: -38px;
+        margin-left: 20px;
+        display: block;
         color: #DD9999;
       }
 
@@ -175,21 +258,40 @@
       }
 
       .item:hover > .widgets {
-        display: inline;
+        display: block;
+        position: absolute;
+        top: 1px;
+        background-color: #fff;
+        left: 450px;
+      }
+
+      #list > li:first-child .up, #list > li:nth-last-child(2) .down {
+        color: #fff;
       }
 
       .edit {
         font-size: 36px;
+        margin-top: -3px;
+        margin-left: -3px;
         height: 45px;
-        width: 300px;
+        width: 420px;
         border: 1px solid #eee;
+      }
+
+      .title-edit {
+        height: 60px;
+        font-family:Georgia,'Times New Roman',Times,serif;
+        text-align: center;
+        font-size: 55px;
+        border: 1px solid #eee;
+        margin-top: -2px;
       }
     </style>
     <title>New Tab</title>
   </head>
   <body>
     <div id="todo">
-      <h1>I should be...</h1>
+      <h1>Things to do</h1>
       <ul id="list">
         <li id="new-item">
           <span class="container"><input class="edit" id="next" type="text" value="..." /></span>

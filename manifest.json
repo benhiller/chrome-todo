@@ -1,8 +1,13 @@
 {
-  "name": "I should be doing...",
-  "description": "A very simple todo list.",
+  "name": "Things to do",
+  "description": "A simple extension that replaces the new tab page with a to do list. Add it and watch your productivity soar!",
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png"
+  },
   "version": "1.0",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
-  }
+  },
+  "update_url": "http://github.com/benhiller/chrome-todo/raw/master/updates.xml"
 }
