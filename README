@@ -1,0 +1,8 @@
+A simple extension for Google Chrome which changes your new tab page to display a to do list.
+
+You can get just the crx file in the downloads section.
+
+A few subtle features:
+* Drag items by moving the bullet next to them.
+* Edit items or change the title of the page by clicking on what you want to change.
+* Use tab or shift-tab to navigate between items when editing them.
