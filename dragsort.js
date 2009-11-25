@@ -3,4 +3,188 @@
 	Website: http://dragsort.codeplex.com/
 	License: http://dragsort.codeplex.com/license
 */
-(function(a){a.fn.dragsort=function(c){var d=a.extend({},a.fn.dragsort.defaults,c);var b=new Array();var f=null,e=null;this.each(function(h,g){var j={draggedItem:null,placeHolderItem:null,pos:null,offset:null,offsetLimit:null,container:g,init:function(){a(this.container).attr("listIdx",h).find(d.dragSelector).css("cursor","pointer").mousedown(this.grabItem)},grabItem:function(k){if(k.button==2){return}if(f!=null&&f.draggedItem!=null){f.dropItem()}a(this).css("cursor","move");f=b[a(this).parents("*[listIdx]").attr("listIdx")];f.draggedItem=a(this).is(d.itemSelector)?a(this):a(this).parents(d.itemSelector);f.offset=f.draggedItem.offset();f.offset.top=k.pageY-f.offset.top;f.offset.left=k.pageX-f.offset.left;var i=a(f.container).outerHeight()==0?Math.max(1,Math.round(0.5+a(f.container).find(d.itemSelector).size()*f.draggedItem.outerWidth()/a(f.container).outerWidth()))*f.draggedItem.outerHeight():a(f.container).outerHeight();f.offsetLimit=a(f.container).offset();f.offsetLimit.right=f.offsetLimit.left+a(f.container).outerWidth()-f.draggedItem.outerWidth();f.offsetLimit.bottom=f.offsetLimit.top+i-f.draggedItem.outerHeight();f.placeHolderItem=f.draggedItem.clone().html(d.placeHolderTemplate).addClass(d.placeHolderClass).css("height",f.draggedItem.height()).attr("placeHolder",true);f.draggedItem.after(f.placeHolderItem);f.draggedItem.css({position:"absolute",opacity:0.8});a(b).each(function(n,m){m.ensureNotEmpty();m.buildPositionTable()});f.setPos(k.pageX,k.pageY);a(document).bind("selectstart",f.stopBubble);a(document).bind("mousemove",f.swapItems);a(document).bind("mouseup",f.dropItem);return false},setPos:function(i,m){var l=m-this.offset.top;var k=i-this.offset.left;if(!d.dragBetween){l=Math.min(this.offsetLimit.bottom,Math.max(l,this.offsetLimit.top));k=Math.min(this.offsetLimit.right,Math.max(k,this.offsetLimit.left))}this.draggedItem.parents().each(function(){if(a(this).css("position")!="static"&&(!a.browser.mozilla||a(this).css("display")!="table")){var n=a(this).offset();l-=n.top;k-=n.left;return false}});this.draggedItem.css({top:l,left:k})},buildPositionTable:function(){var i=this.draggedItem==null?null:this.draggedItem.get(0);var k=new Array();a(this.container).find(d.itemSelector).each(function(l,n){if(n!=i){var m=a(n).offset();m.right=m.left+a(n).width();m.bottom=m.top+a(n).height();m.elm=n;k.push(m)}});this.pos=k},dropItem:function(){if(f.draggedItem==null){return}a(f.container).find(d.dragSelector).css("cursor","pointer");f.placeHolderItem.before(f.draggedItem);f.draggedItem.css({position:"",top:"",left:"",opacity:""});f.placeHolderItem.remove();a("*[emptyPlaceHolder]").remove();d.dragEnd.apply(f.draggedItem);f.draggedItem=null;a(document).unbind("selectstart",f.stopBubble);a(document).unbind("mousemove",f.swapItems);a(document).unbind("mouseup",f.dropItem);return false},stopBubble:function(){return false},swapItems:function(n){if(f.draggedItem==null){return false}f.setPos(n.pageX,n.pageY);var m=f.findPos(n.pageX,n.pageY);var l=f;for(var k=0;m==-1&&d.dragBetween&&k<b.length;k++){m=b[k].findPos(n.pageX,n.pageY);l=b[k]}if(m==-1||a(l.pos[m].elm).attr("placeHolder")){return false}if(e==null||e.top>f.draggedItem.offset().top||e.left>f.draggedItem.offset().left){a(l.pos[m].elm).before(f.placeHolderItem)}else{a(l.pos[m].elm).after(f.placeHolderItem)}a(b).each(function(p,o){o.ensureNotEmpty();o.buildPositionTable()});e=f.draggedItem.offset();return false},findPos:function(k,m){for(var l=0;l<this.pos.length;l++){if(this.pos[l].left<k&&this.pos[l].right>k&&this.pos[l].top<m&&this.pos[l].bottom>m){return l}}return -1},ensureNotEmpty:function(){if(!d.dragBetween){return}var i=this.draggedItem==null?null:this.draggedItem.get(0);var l=null,k=true;a(this.container).find(d.itemSelector).each(function(m,n){if(a(n).attr("emptyPlaceHolder")){l=n}else{if(n!=i){k=false}}});if(k&&l==null){a(this.container).append(f.placeHolderItem.clone().removeAttr("placeHolder").attr("emptyPlaceHolder",true))}else{if(!k&&l!=null){a(l).remove()}}}};j.init();b.push(j)});return this};a.fn.dragsort.defaults={itemSelector:"li",dragSelector:"li",dragEnd:function(){},dragBetween:false,placeHolderClass:"placeHolder",placeHolderTemplate:"&nbsp;"}})(jQuery);
+
+(function($) {
+
+    $.fn.dragsort = function(options) {
+		var opts = $.extend({}, $.fn.dragsort.defaults, options);
+		var lists = new Array();
+		var list = null, lastPos = null;
+
+		this.each(function(i, cont) {
+
+			var newList = {
+				draggedItem: null,
+				placeHolderItem: null,
+				pos: null,
+				offset: null,
+				offsetLimit: null,
+				container: cont,
+
+				init: function() {
+					$(this.container).attr("listIdx", i).find(opts.dragSelector).css("cursor", "pointer").live('mousedown', this.grabItem);
+				},
+
+				grabItem: function(e) {
+					if (e.button == 2)
+						return;
+
+					if (list != null && list.draggedItem != null)
+						list.dropItem();
+
+					$(this).css("cursor", "move");
+
+					list = lists[$(this).parents("*[listIdx]").attr("listIdx")];
+					list.draggedItem = $(this).is(opts.itemSelector) ? $(this) : $(this).parents(opts.itemSelector);
+					list.offset = list.draggedItem.offset();
+					list.offset.top = e.pageY - list.offset.top;
+					list.offset.left = e.pageX - list.offset.left;
+
+					var containerHeight = $(list.container).outerHeight() == 0 ? Math.max(1, Math.round(0.5 + $(list.container).find(opts.itemSelector).size() * list.draggedItem.outerWidth() / $(list.container).outerWidth())) * list.draggedItem.outerHeight() : $(list.container).outerHeight();
+					list.offsetLimit = $(list.container).offset();
+					list.offsetLimit.right = list.offsetLimit.left + $(list.container).outerWidth() - list.draggedItem.outerWidth();
+					list.offsetLimit.bottom = list.offsetLimit.top + containerHeight - list.draggedItem.outerHeight();
+
+					list.placeHolderItem = list.draggedItem.clone().html(opts.placeHolderTemplate).addClass(opts.placeHolderClass).css("height", list.draggedItem.height()).attr("placeHolder", true);
+					list.draggedItem.after(list.placeHolderItem);
+					list.draggedItem.css({ position: "absolute", opacity: 0.8 });
+
+					$(lists).each(function(i, l) { l.ensureNotEmpty(); l.buildPositionTable(); });
+
+					list.setPos(e.pageX, e.pageY);
+					$(document).bind("selectstart", list.stopBubble); //stop ie text selection
+					$(document).bind("mousemove", list.swapItems);
+					$(document).bind("mouseup", list.dropItem);
+					return false; //stop moz text selection
+				},
+
+				setPos: function(x, y) {
+					var top = y - this.offset.top;
+					var left = x - this.offset.left;
+
+					if (!opts.dragBetween) {
+						top = Math.min(this.offsetLimit.bottom, Math.max(top, this.offsetLimit.top));
+						left = Math.min(this.offsetLimit.right, Math.max(left, this.offsetLimit.left));
+					}
+
+					this.draggedItem.parents().each(function() {
+						if ($(this).css("position") != "static"  && (!$.browser.mozilla || $(this).css("display") != "table")) {
+							var offset = $(this).offset();
+							top -= offset.top;
+							left -= offset.left;
+							return false;
+						}
+					});
+
+					this.draggedItem.css({ top: top, left: left });
+				},
+
+				buildPositionTable: function() {
+					var item = this.draggedItem == null ? null : this.draggedItem.get(0);
+					var pos = new Array();
+					$(this.container).find(opts.itemSelector).each(function(i, elm) {
+						if (elm != item) {
+							var loc = $(elm).offset();
+							loc.right = loc.left + $(elm).width();
+							loc.bottom = loc.top + $(elm).height();
+							loc.elm = elm;
+							pos.push(loc);
+						}
+					});
+					this.pos = pos;
+				},
+
+				dropItem: function() {
+					if (list.draggedItem == null)
+						return;
+
+					$(list.container).find(opts.dragSelector).css("cursor", "pointer");
+					list.placeHolderItem.before(list.draggedItem);
+
+					list.draggedItem.css({ position: "", top: "", left: "", opacity: "" });
+					list.placeHolderItem.remove();
+
+					$("*[emptyPlaceHolder]").remove();
+
+					opts.dragEnd.apply(list.draggedItem);
+					list.draggedItem = null;
+					$(document).unbind("selectstart", list.stopBubble);
+					$(document).unbind("mousemove", list.swapItems);
+					$(document).unbind("mouseup", list.dropItem);
+					return false;
+				},
+
+				stopBubble: function() { return false; },
+
+				swapItems: function(e) {
+					if (list.draggedItem == null)
+						return false;
+
+					list.setPos(e.pageX, e.pageY);
+
+					var ei = list.findPos(e.pageX, e.pageY);
+					var nlist = list;
+					for (var i = 0; ei == -1 && opts.dragBetween && i < lists.length; i++) {
+						ei = lists[i].findPos(e.pageX, e.pageY);
+						nlist = lists[i];
+					}
+
+					if (ei == -1 || $(nlist.pos[ei].elm).attr("placeHolder"))
+						return false;
+
+					if (lastPos == null || lastPos.top > list.draggedItem.offset().top || lastPos.left > list.draggedItem.offset().left)
+						$(nlist.pos[ei].elm).before(list.placeHolderItem);
+					else
+						$(nlist.pos[ei].elm).after(list.placeHolderItem);
+
+					$(lists).each(function(i, l) { l.ensureNotEmpty(); l.buildPositionTable(); });
+					lastPos = list.draggedItem.offset();
+					return false;
+				},
+
+				findPos: function(x, y) {
+					for (var i = 0; i < this.pos.length; i++) {
+						if (this.pos[i].left < x && this.pos[i].right > x && this.pos[i].top < y && this.pos[i].bottom > y)
+							return i;
+					}
+					return -1;
+				},
+
+				ensureNotEmpty: function() {
+					if (!opts.dragBetween)
+						return;
+
+					var item = this.draggedItem == null ? null : this.draggedItem.get(0);
+					var emptyPH = null, empty = true;
+
+					$(this.container).find(opts.itemSelector).each(function(i, elm) {
+						if ($(elm).attr("emptyPlaceHolder"))
+							emptyPH = elm;
+						else if (elm != item)
+							empty = false;
+					});
+
+					if (empty && emptyPH == null)
+						$(this.container).append(list.placeHolderItem.clone().removeAttr("placeHolder").attr("emptyPlaceHolder", true));
+					else if (!empty && emptyPH != null)
+						$(emptyPH).remove();
+				}
+			};
+
+			newList.init();
+			lists.push(newList);
+		});
+
+		return this;
+    };
+
+    $.fn.dragsort.defaults = {
+		itemSelector: "li",
+        dragSelector: "li",
+        dragEnd: function() { },
+		dragBetween: false,
+		placeHolderClass: "placeHolder",
+		placeHolderTemplate: "&nbsp;"
+    };
+
+})(jQuery);
