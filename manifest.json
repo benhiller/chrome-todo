@@ -1,9 +1,11 @@
 {
-  "name": "Things to do",
+  "name": "Things To Do",
   "description": "A simple extension that replaces the new tab page with a to do list. Add it and watch your productivity soar!",
   "icons": {
     "16": "icon16.png",
-    "32": "icon32.png"
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   },
   "version": "1.0",
   "chrome_url_overrides": {
