@@ -1,6 +1,7 @@
 <html>
   <head>
     <script type="text/javascript" src="jquery.js"> </script>
+    <script type="text/javascript" src="dragsort.js"> </script>
     <script type="text/javascript">
       function update() {
         var items = '["' + $('.item .content').map(function() {
@@ -14,7 +15,7 @@
       }
 
       function newItem(str) {
-        var li = $('<li class="item"><span class="content">'+str+'</span><span class="widgets"><span class="up"></span><span class="down"></span><span class="remove"></span></span></li>');
+        var li = $('<li class="item"><span class="drag">&#187;</span><span class="content">'+str+'</span><span class="widgets"><span class="up"></span><span class="down"></span><span class="remove"></span></span></li>');
         li.find('.up').html("&uArr;");
         li.find('.down').html('&dArr;');
         li.find('.remove').text('X');
@@ -158,6 +159,8 @@
           }
         }
 
+        $("#list").dragsort({ dragEnd: update, dragSelector: ".drag" });
+
       });
     </script>
     <style>
@@ -191,7 +194,6 @@
 
       #list li:before {
         font-weight: normal;
-        content: "\00BB \0020";
       }
 
       #list li {
@@ -286,6 +288,15 @@
         border: 1px solid #eee;
         margin-top: -2px;
       }
+
+      .drag {
+        cursor: pointer;
+      }
+
+      .drag, .fake-drag {
+        margin-left: -5px;
+        padding-right: 5px;
+      }
     </style>
     <title>New Tab</title>
   </head>
@@ -294,7 +305,7 @@
       <h1>Things to do</h1>
       <ul id="list">
         <li id="new-item">
-          <span class="container"><input class="edit" id="next" type="text" value="..." /></span>
+        <span class="container"><span class="fake-drag">&#187;</span><input class="edit" id="next" type="text" value="..." /></span>
         </li>
       </ul>
     </div>
