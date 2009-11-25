@@ -115,7 +115,7 @@
         // Handle updating items
         $('.content').live('click', function() {
             var rep = $('<li class="update"></li>');
-            rep.append('<span class="container"><input class="edit" type="text" value="' + $(this).text() + '" /></span>');
+            rep.append('<span class="drag">&#187;</span><span class="container"><input class="edit" type="text" value="' + $(this).text() + '" /></span>');
             $(this).parent().replaceWith(rep);
             rep.find('input').blur(function() {
               $(this).parent().parent().replaceWith(newItem($(this).val()));
