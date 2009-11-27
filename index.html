@@ -5,12 +5,12 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-	<title>benhiller/chrome-todo @ GitHub</title>
+	<title>Things To Do</title>
 
 	<style type="text/css">
 		body {
   		margin-top: 1.0em;
-  		background-color: #c8695f;
+  		background-color: #fff;
 		  font-family: "Helvetica,Arial,FreeSans";
   		color: #000000;
     }
@@ -18,17 +18,20 @@
       margin: 0 auto;
       width: 700px;
     }
-		h1 { font-size: 3.8em; color: #3796a0; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
+		h1 { font-size: 4.2em; color: #1F54D2; margin-bottom: 3px; }
+    h1 img { margin-bottom: -1px; }
+		h1 .small { font-weight: normal; font-size: 0.4em; color: #000; }
+		h1 .small {  }
 		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #3796a0; }
-    h3 { text-align: center; color: #3796a0; }
-    a { color: #3796a0; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+		h2 { font-size: 1.5em; color: #1F54D2; }
+    h3 { text-align: center; color: #1F54D2; }
+    a { color: #1F54D2; }
+    .description { text-align: justify; padding-right: 20px; border-right: 1px solid #000; width: 350px; float: left; font-size: 1.2em; margin-bottom: 30px; }
+    .install { font-size: 1.2em; width: 300px; float: right; }
     .download { float: right; }
 		pre { background: #000; color: #fff; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    .footer { clear: both; text-align:center; padding-top:30px; font-style: italic; }
 	</style>
 
 </head>
@@ -38,43 +41,40 @@
 
   <div id="container">
 
-    <div class="download">
-      <a href="http://github.com/benhiller/chrome-todo/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/benhiller/chrome-todo/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
 
-    <h1><a href="http://github.com/benhiller/chrome-todo">chrome-todo</a>
-      <span class="small">by <a href="http://github.com/benhiller">benhiller</a></span></h1>
-
+    <h1><img src="icon48.png" /> <a href="http://github.com/benhiller/chrome-todo">Things To Do</a>
+      <span class="small">by <a href="http://benhiller.github.com">benhiller</a></span></h1>
+    <div class="content">
     <div class="description">
-      Chrome extension that replaces new tab page with to do list.
+      <h2>Description</h2>
+      A simple Chrome extension that replaces your New Tab page with a to-do list.
+      You can try the to-do list <a href="newtab.html">here</a>. It has all the functionality of the extension, and will work in any browser that supports the HTML5 <a href="http://dev.w3.org/html5/webstorage/">Web Storage</a> specification.
     </div>
-
-    <h2>Authors</h2>
-<p>Ben Hiller (benhiller@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Ben Hiller (benhiller@gmail.com)<br/>      </p>
-
-
-    <h2>Download</h2>
+    <div class="install">
+    <h2>Install</h2>
     <p>
-      You can download this project in either
-      <a href="http://github.com/benhiller/chrome-todo/zipball/master">zip</a> or
-      <a href="http://github.com/benhiller/chrome-todo/tarball/master">tar</a> formats.
+      You can install the extension in Chrome by clicking <a href="http://cloud.github.com/downloads/benhiller/chrome-todo/chrome-todo.crx">here</a>.
     </p>
+    </div>
+    </div>
+    <div class="footer">
     <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
       by running:
       <pre>$ git clone git://github.com/benhiller/chrome-todo</pre>
     </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/benhiller/chrome-todo">benhiller/chrome-todo</a> test
+      Get the source code on GitHub: <a href="http://github.com/benhiller/chrome-todo">benhiller/chrome-todo</a>
     </div>
 
   </div>
 
-
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-85731-11");
+pageTracker._trackPageview();
+} catch(err) {}</script>
 </body>
 </html>
