@@ -1,0 +1,116 @@
+      #todo {
+        width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      h1 {
+        font-family:Georgia,'Times New Roman',Times,serif;
+        font-size: 55px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #000;
+        height: 60px;
+      }
+
+      #list, .container {
+        width: 450px;
+        margin: 0 auto;
+        list-style-position: inside;
+        font-weight: bold;
+        font-family: 'Helvetica','Arial',sans-serif;
+        list-style: none;
+        font-size: 36px;
+      }
+
+      #list li:before {
+        font-weight: normal;
+      }
+
+      #list li {
+        text-align: left;
+        height: 45px;
+        padding-bottom: 5px;
+        position: relative;
+      }
+
+
+      #list li, #next {
+        height: 45px;
+        font-family: Helvetica, Arial, sans-serif;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+
+      input {
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: bold;
+      }
+
+      .widgets {
+        display: none;
+        float: right;
+      }
+
+      .up {
+        margin-right: -27px;
+        font-size: 20px;
+        display: block;
+      }
+
+      .down {
+        font-size: 20px;
+        margin-top: -13px;
+        display: block;
+      }
+
+      .content {
+        width: 470px;
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .remove {
+        margin-top: -38px;
+        margin-left: 20px;
+        display: block;
+      }
+
+      .item:hover > .widgets {
+        display: block;
+        position: absolute;
+        top: 1px;
+        left: 450px;
+      }
+
+      #list > li:first-child .up, #list > li:nth-last-child(2) .down {
+      }
+
+      .edit {
+        font-size: 36px;
+        margin-top: -3px;
+        margin-left: -3px;
+        height: 45px;
+        width: 420px;
+        border: 1px solid #eee;
+      }
+
+      .title-edit {
+        height: 60px;
+        font-family:Georgia,'Times New Roman',Times,serif;
+        text-align: center;
+        font-size: 55px;
+        border: 1px solid #eee;
+        margin-top: -2px;
+      }
+
+      .drag {
+        cursor: pointer;
+      }
+
+      .drag, .fake-drag {
+        margin-left: -5px;
+        padding-right: 5px;
+      }
+

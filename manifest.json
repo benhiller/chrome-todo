@@ -7,9 +7,10 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "version": "1.1",
+  "version": "1.2",
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
+  "options_page": "options.html",
   "update_url": "http://github.com/benhiller/chrome-todo/raw/master/updates.xml"
 }

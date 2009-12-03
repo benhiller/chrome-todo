@@ -1,0 +1,42 @@
+<html>
+<head>
+  <script src="jscolor/jscolor.js"></script>
+  <script type="text/javascript" src="jquery.js"> </script>
+  <script>
+    function update(id) {
+      return function() { localStorage[id] = $('#' + id).val(); };
+    }
+
+    function defaultValue(id, def) {
+      if(localStorage[id] == undefined) {
+        localStorage[id] = def;
+      }
+    }
+    $(document).ready(function() {
+      defaultValue('bg', 'FFFFFF');
+      defaultValue('fg', '000000');
+      defaultValue('arr', 'DDDDDD');
+      defaultValue('arrh', '888888');
+      defaultValue('box', 'FFFFFF');
+      defaultValue('del', 'DD9999');
+      defaultValue('delh', 'DD3030');
+
+      var ids = ['bg', 'fg', 'box', 'arr', 'arrh', 'del', 'delh'];
+      for(var i in ids) {
+        $('#' + ids[i]).val(localStorage[ids[i]]);
+        $('#' + ids[i]).change(update(ids[i]));
+      }
+    });
+  </script>
+</head>
+<body>
+<div>Foreground color: <input id="fg" class="color" value="000000" ></div>
+<div>Background color: <input id="bg" class="color" value="FFFFFF" ></div>
+<div>Textbox color: <input id="box" class="color" value="FFFFFF" ></div>
+<div>Arrow color: <input id="arr" class="color" value="FFFFFF" ></div>
+<div>Arrow hover color: <input id="arrh" class="color" value="FFFFFF" ></div>
+<div>Delete color: <input id="del" class="color" value="FFFFFF"></div>
+<div>Delete hover color: <input id="delh" class="color" value="FFFFFF" ></div>
+
+</body>
+</html>

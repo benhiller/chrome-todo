@@ -1,5 +1,6 @@
 <html>
   <head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script type="text/javascript" src="jquery.js"> </script>
     <script type="text/javascript" src="dragsort.js"> </script>
     <script type="text/javascript">
@@ -22,7 +23,33 @@
         return li;
       }
 
+      function defaultValue(id, def) {
+        if(localStorage[id] == undefined) {
+          localStorage[id] = def;
+        }
+      }
+
       $(document).ready(function() {
+        defaultValue('bg', 'FFFFFF');
+        defaultValue('fg', '000000');
+        defaultValue('arr', 'DDDDDD');
+        defaultValue('arrh', '888888');
+        defaultValue('box', 'FFFFFF');
+        defaultValue('del', 'DD9999');
+        defaultValue('delh', 'DD3030');
+
+        $('body').css('background-color', localStorage['bg']);
+        $('body').css('color', localStorage['fg']);
+        document.styleSheets[0].insertRule(".down, .up { color: " + localStorage['arr'] + "; }", 0);
+        document.styleSheets[0].insertRule(".down:hover, .up:hover { color: " + localStorage['arrh'] + "; }", 0);
+        document.styleSheets[0].insertRule("input { color: " + localStorage['fg'] + "; }", 0);
+        document.styleSheets[0].insertRule(".remove { color: " + localStorage['del'] + "; }", 0);
+        document.styleSheets[0].insertRule(".remove:hover { color: " + localStorage['delh'] + "; }", 0);
+        document.styleSheets[0].insertRule("input { background-color: " + localStorage['box'] + "; }", 0);
+        document.styleSheets[0].insertRule(".item:first-child .up { color: " + localStorage['bg'] + "; }", 0);
+        document.styleSheets[0].insertRule(".item:nth-last-child(2) .down { color: " + localStorage['bg'] + "; }", 0);
+        $('input').css('background-color', localStorage['box']);
+        $('input').css('color', localStorage['fg']);
 
         $('#next').bind('keydown', function(e) {
           // Handle new items
@@ -153,9 +180,11 @@
         $('h1').text(title);
 
         var todo = JSON.parse(localStorage.getItem('wisbd'));
-        for(var i = todo.length-1; i >= 0; i--) {
-          if(todo[i] != "") {
-            $('#list').prepend(newItem(todo[i]));
+        if(todo !== undefined) {
+          for(var i = todo.length-1; i >= 0; i--) {
+            if(todo[i] != "") {
+              $('#list').prepend(newItem(todo[i]));
+            }
           }
         }
 
@@ -163,141 +192,6 @@
 
       });
     </script>
-    <style>
-      html {
-      }
-
-      #todo {
-        width: 700px;
-        margin: 0 auto;
-        text-align: center;
-      }
-
-      h1 {
-        font-family:Georgia,'Times New Roman',Times,serif;
-        font-size: 55px;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #000;
-        height: 60px;
-      }
-
-      #list, .container {
-        width: 450px;
-        margin: 0 auto;
-        list-style-position: inside;
-        font-weight: bold;
-        font-family: 'Helvetica','Arial',sans-serif;
-        list-style: none;
-        font-size: 36px;
-      }
-
-      #list li:before {
-        font-weight: normal;
-      }
-
-      #list li {
-        text-align: left;
-        height: 45px;
-        padding-bottom: 5px;
-        position: relative;
-      }
-
-
-      #list li, #next {
-        height: 45px;
-        font-family: Helvetica, Arial, sans-serif;
-        white-space: nowrap;
-        font-weight: bold;
-      }
-
-      input {
-        font-family: Helvetica, Arial, sans-serif;
-        font-weight: bold;
-      }
-
-      .widgets {
-        display: none;
-        float: right;
-      }
-
-      .down, .up {
-        color: #ddd;
-      }
-
-      .down:hover, .up:hover {
-        color: #888;
-      }
-
-      .up {
-        margin-right: -27px;
-        font-size: 20px;
-        display: block;
-      }
-
-      .down {
-        font-size: 20px;
-        margin-top: -13px;
-        display: block;
-      }
-
-      .content {
-        width: 470px;
-        display: inline-block;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      .remove {
-        margin-top: -38px;
-        margin-left: 20px;
-        display: block;
-        color: #DD9999;
-      }
-
-      .remove:hover {
-        color: #DD3030;
-      }
-
-      .item:hover > .widgets {
-        display: block;
-        position: absolute;
-        top: 1px;
-        background-color: #fff;
-        left: 450px;
-      }
-
-      #list > li:first-child .up, #list > li:nth-last-child(2) .down {
-        color: #fff;
-      }
-
-      .edit {
-        font-size: 36px;
-        margin-top: -3px;
-        margin-left: -3px;
-        height: 45px;
-        width: 420px;
-        border: 1px solid #eee;
-      }
-
-      .title-edit {
-        height: 60px;
-        font-family:Georgia,'Times New Roman',Times,serif;
-        text-align: center;
-        font-size: 55px;
-        border: 1px solid #eee;
-        margin-top: -2px;
-      }
-
-      .drag {
-        cursor: pointer;
-      }
-
-      .drag, .fake-drag {
-        margin-left: -5px;
-        padding-right: 5px;
-      }
-    </style>
     <title>New Tab</title>
   </head>
   <body>
