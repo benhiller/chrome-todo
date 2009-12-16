@@ -28,20 +28,23 @@
         position: relative;
       }
 
-
       #list li, #next {
         font-family: Helvetica, Arial, sans-serif;
         font-weight: bold;
       }
 
-      input {
+      textarea {
         font-family: Helvetica, Arial, sans-serif;
         font-weight: bold;
+        overflow: hidden;
       }
 
       .widgets {
         display: none;
         float: right;
+        position: absolute;
+        top: 0px;
+        right: 0px;
       }
 
       .up, .down {
@@ -95,16 +98,20 @@
       }
 
       .drag {
-        position: absolute;
-        top: 0px;
         cursor: pointer;
       }
 
       .drag, .fake-drag {
+        position: absolute;
+        top: 0px;
         margin-left: -5px;
         padding-right: 5px;
       }
 
       #new-item {
         white-space:nowrap;
+      }
+
+      #next {
+        margin-left: .5em;
       }

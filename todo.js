@@ -23,14 +23,14 @@ function defaultValue(id, def) {
         }
       }
 
-var params = { bg: { def: 'FFFFFF', rules: [{ selector: 'body', name: 'background-color' },
+var params = { bg: { def: 'FFFFFF', rules: [{ selector: 'body, .widgets', name: 'background-color' },
                                      { selector: '.item:first-child .up ', name: 'color' },
                                      { selector: '.item:nth-last-child(2) .down', name: 'color'}]},
                fg: { def: '000000', rules: [{ selector: 'body', name: 'color'},
-                                     { selector: 'input', name: 'color' }]},
+                                     { selector: 'input, textarea', name: 'color' }]},
                arr: { def: 'DDDDDD', rules: [{ selector: '.down, .up', name: 'color' }]},
                arrh: { def: '888888', rules: [{ selector: '.down:hover, .up:hover', name: 'color' }]},
-               box: { def: 'FFFFFF', rules: [{ selector: 'input', name: 'background-color' }]},
+               box: { def: 'FFFFFF', rules: [{ selector: 'textarea, input', name: 'background-color' }]},
                del: { def: 'DD9999', rules: [{ selector: '.remove', name: 'color' }]},
                delh: { def: 'DD3030', rules: [{ selector: '.remove:hover', name: 'color' }]},
                itemfont: { def: '36px', rules: [{ selector: '#list, .container', name: 'font-size' }]},
@@ -150,12 +150,12 @@ $(document).ready(function() {
         // Handle updating items
         $('.content').live('click', function() {
             var rep = $('<li class="update"></li>');
-            rep.append('<span class="drag">&#187;</span><span class="container"><input class="edit" type="text" value="' + $(this).text() + '" /></span>');
+            rep.append('<span class="drag">&#187;</span><span class="container"><textarea class="edit">'+$(this).text()+'</textarea></span>');
             $(this).parent().replaceWith(rep);
-            rep.find('input').blur(function() {
+            rep.find('textarea').blur(function() {
               $(this).parent().parent().replaceWith(newItem($(this).val()));
               update();
-            }).focus().click();
+            }).focus().click().TextAreaExpander();
         });
 
         $('h1').toggle(function() {
@@ -186,6 +186,8 @@ $(document).ready(function() {
           setTitle(title);
         }
         $('h1').text(title);
+
+        $("#next").TextAreaExpander();
 
         var todo = JSON.parse(localStorage.getItem('wisbd'));
         if(todo !== undefined && todo != null) {
