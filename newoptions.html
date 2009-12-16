@@ -1,104 +1,17 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title> Things To Do - Options </title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/options.css" />
     <link rel="stylesheet" type="text/css" href="css/ui-lightness/jquery-ui-1.7.2.custom.css" />
-    <script type="text/javascript" src="jquery.js"> </script>
-    <script type="text/javascript" src="jquery.textarea-expander.js"> </script>
-    <script type="text/javascript" src="jquery-ui-1.7.2.custom.min.js"> </script>
-    <script type="text/javascript" src="dragsort.js"> </script>
-    <script type="text/javascript" src="todo.js"> </script>
-    <script src="jscolor/jscolor.js"></script>
-    <script>
-      function updateInput() {
-        $('#color-changer').get(0).color.fromString(localStorage[$('#sel option:selected').val()]);
-      }
-
-      function updateFont(attr, ui) {
-        localStorage[attr] = ui.value + 'px';
-      }
-
-      $(document).ready(function() {
-       $("#color-changer").change(function() {
-          localStorage[$('#sel option:selected').val()] = $(this).val();
-          reloadParams();
-       }).val(localStorage['bg']);
-       $('#sel').change(updateInput);
-       $('#itemfont-slider').slider({
-        max: 50, min: 12, value: localStorage['itemfont'].split('px')[0],
-        change: function(e, u) { updateFont('itemfont', u); reloadParams(); },
-        slide: function(e, u) { updateFont('itemfont', u); reloadParams(); }
-       });
-
-       $('#titlefont-slider').slider({
-        max: 100, min: 12, value: localStorage['titlefont'].split('px')[0],
-        change: function(e, u) { updateFont('titlefont', u); reloadParams(); },
-        slide: function(e, u) { updateFont('titlefont', u); reloadParams(); }
-       });
-
-      $('#pagewidth-slider').slider({
-        max: 2000, min: 100, value: localStorage['pagewidth'].split('px')[0],
-        change: function(e, u) { updateFont('pagewidth', u); reloadParams(); },
-        slide: function(e, u) { updateFont('pagewidth', u); reloadParams(); }
-       });
-
-      $('#itemwidth-slider').slider({
-        max: 2000, min: 100, value: localStorage['itemwidth'].split('px')[0],
-        change: function(e, u) { updateFont('itemwidth', u); reloadParams(); },
-        slide: function(e, u) { updateFont('itemwidth', u); reloadParams(); }
-       });
-
-      });
-    </script>
-    <style>
-      #color {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        width: 150px;
-        -webkit-border-radius: 5px;
-        border: 1px solid #888888;
-        padding: 8px;
-        background-color: #dddddd;
-        font-family: 'Helvetica','Arial',sans-serif;
-      }
-
-      #color select {
-        margin-bottom: 8px;
-      }
-
-      #color-changer {
-        border: 1px solid #aaaaaa;
-      }
-
-      #color-changer, #color select {
-        width: 140px;
-      }
-
-      .title {
-        margin-top: 8px;
-        font-weight: bold;
-        font-size: 12px;
-      }
-
-      .slider {
-        width: 125px;
-        margin: 10px;
-        margin-left: 5px;
-        margin-top: 5px;
-        margin-bottom: 0px;
-        font-size: 72%;
-      }
-
-      hr {
-        border: 0;
-        height: 1px;
-        background-color: #aaa;
-        width: 166px;
-        margin-left: -8px;
-        padding: 0;
-      }
-    </style>
+    <script type="text/javascript" src="js/jquery.js"> </script>
+    <script type="text/javascript" src="js/jquery.textarea-expander.js"> </script>
+    <script type="text/javascript" src="js/jquery-ui-1.7.2.custom.min.js"> </script>
+    <script type="text/javascript" src="js/dragsort.js"> </script>
+    <script type="text/javascript" src="js/todo.js"> </script>
+    <script src="js/jscolor/jscolor.js"></script>
+    <script src="js/options.js"></script>
   </head>
   <body>
     <div id="todo">

@@ -1,0 +1,47 @@
+#color {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 150px;
+  -webkit-border-radius: 5px;
+  border: 1px solid #888888;
+  padding: 8px;
+  background-color: #dddddd;
+  font-family: 'Helvetica','Arial',sans-serif;
+}
+
+#color select {
+  margin-bottom: 8px;
+}
+
+#color-changer {
+  border: 1px solid #aaaaaa;
+}
+
+#color-changer, #color select {
+  width: 140px;
+}
+
+.title {
+  margin-top: 8px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.slider {
+  width: 125px;
+  margin: 10px;
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+  font-size: 72%;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #aaa;
+  width: 166px;
+  margin-left: -8px;
+  padding: 0;
+}
