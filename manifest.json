@@ -11,6 +11,6 @@
   "chrome_url_overrides": {
     "newtab": "newtab.html"
   },
-  "options_page": "options.html",
+  "options_page": "newoptions.html",
   "update_url": "http://github.com/benhiller/chrome-todo/raw/master/updates.xml"
 }
