@@ -8,7 +8,7 @@ function updateFont(attr, ui) {
 
 $(document).ready(function() {
  $("#color-changer").change(function() {
-    localStorage[$('#sel option:selected').val()] = $(this).val();
+    setTodoStorage($('#sel option:selected').val(), '#' + $(this).val());
     reloadParams();
  }).val(localStorage['bg']);
  $('#sel').change(updateInput);

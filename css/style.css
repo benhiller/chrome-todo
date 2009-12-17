@@ -1,117 +1,122 @@
-      #todo {
-        margin: 0 auto;
-        text-align: center;
-      }
+#todo {
+  margin: 0 auto;
+  text-align: center;
+}
 
-      h1 {
-        font-family:Georgia,'Times New Roman',Times,serif;
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px solid #000;
-      }
+h1 {
+  font-family:Georgia,'Times New Roman',Times,serif;
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #000;
+}
 
-      #list, .container {
-        margin: 0 auto;
-        list-style-position: inside;
-        font-weight: bold;
-        font-family: 'Helvetica','Arial',sans-serif;
-        list-style: none;
-      }
+#list, .container {
+  margin: 0 auto;
+  list-style-position: inside;
+  font-weight: bold;
+  font-family: 'Helvetica','Arial',sans-serif;
+  list-style: none;
+}
 
-      #list li:before {
-        font-weight: normal;
-      }
+#list li:before {
+  font-weight: normal;
+}
 
-      #list li {
-        text-align: left;
-        padding-bottom: 5px;
-        position: relative;
-      }
+#list li {
+  text-align: left;
+  padding-bottom: 5px;
+  position: relative;
+}
 
-      #list li, #next {
-        font-family: Helvetica, Arial, sans-serif;
-        font-weight: bold;
-      }
+#list li, #next {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
 
-      textarea {
-        font-family: Helvetica, Arial, sans-serif;
-        font-weight: bold;
-        overflow: hidden;
-      }
+textarea {
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: -5px;
+}
 
-      .widgets {
-        display: none;
-        float: right;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-      }
+.widgets {
+  display: none;
+  float: right;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
 
-      .up, .down {
-        font-size: 55.5%;
-      }
+.up, .down {
+  font-size: 55.5%;
+}
 
-      .up {
-        display: block;
-      }
+.up {
+  display: block;
+}
 
-      .down {
-        margin-top: -0.68em;
-        display: block;
-      }
+.down {
+  margin-top: -0.68em;
+  display: block;
+}
 
-      .content {
-        margin-left: 0.5em;
-        display: inline-block;
-      }
+.content {
+  margin-left: 0.5em;
+  display: inline-block;
+}
 
-      .remove {
-        margin-top: -1.07em;
-        margin-left: 0.7em;
-        display: block;
-      }
+.remove {
+  margin-top: -1.07em;
+  margin-left: 0.7em;
+  display: block;
+}
 
-      .item:hover > .widgets {
-        display: block;
-      }
+.item:hover > .widgets {
+  display: block;
+}
 
-      .edit {
-        font-size: 100%;
-        margin-top: -3px;
-        margin-left: -3px;
-        height: 1.3em;
-        width: 99%;
-        border: 1px solid #eee;
-      }
+.edit {
+  font-size: 100%;
+  margin-top: -3px;
+  margin-left: -3px;
+  height: 1.3em;
+  width: 99%;
+  border: 1px solid #eee;
+}
 
-      .update .edit {
-        margin-left: 15px;
-        height: 1.2em;
-      }
+.update .edit {
+  margin-left: 15px;
+  height: 1.2em;
+}
 
-      .title-edit {
-        height: 1em;
-        font-family:Georgia,'Times New Roman',Times,serif;
-        text-align: center;
-        border: 1px solid #eee;
-        margin-top: -2px;
-      }
+.title-edit {
+  height: 1em;
+  font-family:Georgia,'Times New Roman',Times,serif;
+  text-align: center;
+  border: 1px solid #eee;
+  margin-top: -2px;
+}
 
-      .drag {
-        cursor: pointer;
-      }
+.drag {
+  cursor: pointer;
+}
 
-      .drag, .fake-drag {
-        position: absolute;
-        top: 0px;
-        margin-left: -5px;
-        padding-right: 5px;
-      }
+.drag, .fake-drag {
+  position: absolute;
+  top: 0px;
+  margin-left: -5px;
+  padding-right: 5px;
+}
 
-      #new-item {
-        white-space:nowrap;
-      }
+#new-item {
+  white-space:nowrap;
+}
 
-      #next {
-        margin-left: .5em;
-      }
+#next {
+  margin-left: .5em;
+}

@@ -1,12 +1,12 @@
 function update() {
   var items = '["' + $('.item .content').map(function() {
-    return $(this).text();
+    return $(this).text().replace(/[\n\r\t]/g, "");
   }).get().join('", "') + '"]';
-  localStorage.setItem('wisbd', items);
+  localStorage['wisbd'] = items;
 }
 
 function setTitle(title) {
-  localStorage.setItem('wisbd-title', title);
+  localStorage['wisbd-title'] = title;
 }
 
 function newItem(str) {
@@ -23,16 +23,16 @@ function defaultValue(id, def) {
   }
 }
 
-var params = { bg: { def: 'FFFFFF', rules: [{ selector: 'body, .widgets', name: 'background-color' },
+var params = { bg: { def: '#FFFFFF', rules: [{ selector: 'body, .widgets', name: 'background-color' },
                                      { selector: '.item:first-child .up ', name: 'color' },
                                      { selector: '.item:nth-last-child(2) .down', name: 'color'}]},
-               fg: { def: '000000', rules: [{ selector: 'body', name: 'color'},
+               fg: { def: '#000000', rules: [{ selector: 'body', name: 'color'},
                                      { selector: 'input, textarea', name: 'color' }]},
-               arr: { def: 'DDDDDD', rules: [{ selector: '.down, .up', name: 'color' }]},
-               arrh: { def: '888888', rules: [{ selector: '.down:hover, .up:hover', name: 'color' }]},
-               box: { def: 'FFFFFF', rules: [{ selector: 'textarea, input', name: 'background-color' }]},
-               del: { def: 'DD9999', rules: [{ selector: '.remove', name: 'color' }]},
-               delh: { def: 'DD3030', rules: [{ selector: '.remove:hover', name: 'color' }]},
+               arr: { def: '#DDDDDD', rules: [{ selector: '.down, .up', name: 'color' }]},
+               arrh: { def: '#888888', rules: [{ selector: '.down:hover, .up:hover', name: 'color' }]},
+               box: { def: '#FFFFFF', rules: [{ selector: 'textarea, input', name: 'background-color' }]},
+               del: { def: '#DD9999', rules: [{ selector: '.remove', name: 'color' }]},
+               delh: { def: '#DD3030', rules: [{ selector: '.remove:hover', name: 'color' }]},
                itemfont: { def: '36px', rules: [{ selector: '#list, .container', name: 'font-size' }]},
                pagewidth: { def: '700px', rules: [{ selector: '#todo', name: 'width' }]},
                itemwidth: { def: '450px', rules: [{ selector: '#list, .container', name: 'width' }]},
@@ -42,9 +42,9 @@ var params = { bg: { def: 'FFFFFF', rules: [{ selector: 'body, .widgets', name: 
 var i = 0;
 
 function reloadParams() {
-  for(var param in params) { if(params.hasOwnProperty(param)) {
+  for(var param in params) {
     defaultValue(param, params[param].def);
-    for(var idx in params[param].rules) { if(params[param].rules.hasOwnProperty(idx)) {
+    for(var idx in params[param].rules) {
       var rule = params[param].rules[idx];
       if(rule.index === undefined) {
         rule.index = i;
@@ -52,9 +52,10 @@ function reloadParams() {
       } else {
         document.styleSheets[0].deleteRule(rule.index);
       }
+      console.log(rule.selector + " { " + rule.name + ": " + localStorage[param] + "; }");
       document.styleSheets[0].insertRule(rule.selector + " { " + rule.name + ": " + localStorage[param] + "; }", rule.index);
-    } }
-  } }
+    }
+  }
 }
 
 $(document).ready(function() {
@@ -66,7 +67,8 @@ $(document).ready(function() {
       if($('#next').val() != '') {
         $('#new-item').before(newItem($('#next').val()));
         update();
-        $('#next').val('');
+        $('#next').text('');
+        e.preventDefault();
       }
     } else if (e.keyCode == 9) {
       if(e.shiftKey) {
@@ -183,8 +185,8 @@ $(document).ready(function() {
   function() {});
 
   // Initialize
-  var title = localStorage.getItem('wisbd-title');
-  if(title === null || title == '') {
+  var title = localStorage['wisbd-title'];
+   if(title === null || title == '') {
     title = 'Things to do';
     setTitle(title);
   }
@@ -192,8 +194,8 @@ $(document).ready(function() {
 
   $("#next").TextAreaExpander();
 
-  var todo = JSON.parse(localStorage.getItem('wisbd'));
-  if(todo !== undefined && todo !== null) {
+  if(localStorage['wisbd'] !== undefined) {
+    var todo = JSON.parse(localStorage['wisbd']);
     for(var i = todo.length-1; i >= 0; i--) {
       if(todo[i] != "") {
         $('#list').prepend(newItem(todo[i]));
