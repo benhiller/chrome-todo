@@ -41,7 +41,6 @@ textarea {
   overflow: hidden;
   padding: 0px;
   margin: 0px;
-  margin-bottom: -5px;
 }
 
 .widgets {
@@ -90,8 +89,11 @@ textarea {
 }
 
 .update .edit {
-  margin-left: 15px;
-  height: 1.2em;
+  margin: 0;
+  margin-left: 0.47em;
+  padding: 0;
+  margin-top: -1px;
+  margin-bottom: -7px;
 }
 
 .title-edit {

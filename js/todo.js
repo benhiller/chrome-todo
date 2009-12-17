@@ -202,7 +202,7 @@ $(document).ready(function() {
       }
     }
   } else {
-    $('#list').prepend(newItem('Use options on extension page to customize appearance'));
+    $('#list').prepend(newItem('Go to the options on the extension page to customize appearance.'));
   }
 
   $("#list").dragsort({ dragEnd: update, dragSelector: ".drag" });
