@@ -1,6 +1,7 @@
 function update() {
   var items = '["' + $('.item .content').map(function() {
-    return $(this).text().replace(/[\n\r\t]/g, "");
+    // arcalyth (24 April 2011): added another replace() to handle quote escape
+    return $(this).text().replace(/[\n\r\t]/g, "").replace(/(\\\"|\")/g, '\\"');
   }).get().join('", "') + '"]';
   localStorage['wisbd'] = items;
 }
